@@ -160,6 +160,7 @@
     <Compile Include="Models\EF\sys_user.cs" />
     <Compile Include="Models\Service\ISys_userService.cs" />
     <Compile Include="Models\Service\Sys_userService.cs" />
+    <Compile Include="Models\ViewModel\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
