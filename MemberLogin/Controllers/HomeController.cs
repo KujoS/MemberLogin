@@ -3,16 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Data.SQLite;
-using Dapper;
+using MemberLogin.Models.ViewModel;
+using MemberLogin.Models.Service;
+using System.Web.Security;
 
 namespace MemberLogin.Controllers
-{
+{ 
+    [Authorize]
     public class HomeController : Controller
     {
+        ISys_userService userService;
+
+        public HomeController(ISys_userService _user)
+        {
+            userService = _user;
+        }
+
+        [AllowAnonymous]
+        public ActionResult Login()
+        {
+            ModelState.AddModelError("", "使用者不存在");
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Login(LoginModel model)
+        {
+            var u = userService.Query()?.FirstOrDefault(c => c.Name.Equals(model.Name));
+
+            if (u == null)
+            {
+                ModelState.AddModelError("Name", "使用者不存在");
+            }
+            else if (!u.Password.Equals(model.Password, StringComparison.Ordinal))
+            {
+                ModelState.AddModelError("Password", "密碼錯誤");
+            }
+            else
+            {
+                FormsAuthentication.SetAuthCookie(model.Name, false);
+                return RedirectToAction("Index", "Home");
+            }
+            return View(model);
+        }
+
         public ActionResult Index()
         {
-            ViewBag.Message = "Your application index page.";
+            string user = System.Web.HttpContext.Current.User.Identity.Name;
+            ViewBag.UserName = user;
 
             return View();
         }
