@@ -155,6 +155,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EF\sys_user.cs" />
+    <Compile Include="Models\Service\ISys_userService.cs" />
+    <Compile Include="Models\Service\Sys_userService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
