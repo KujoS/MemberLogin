@@ -11,7 +11,7 @@ namespace MemberLogin.Models.Service
     public class Sys_userService : ISys_userService
     {
         SQLiteConnection conn;
-        string connStr = "Data Source=E:\\Codes\\MemberLogin\\MemberDB.db;Version=3;";
+        string connStr = "Data Source=D:\\Codes\\MemberLogin\\MemberDB.db;Version=3;";
 
         public Sys_userService()
         {
@@ -40,7 +40,12 @@ namespace MemberLogin.Models.Service
 
         public sys_user Query(int id)
         {
-            return conn.QueryFirstOrDefault<sys_user>("select * from sys_user where id=@id", new sys_user { id = id });
+            return conn.QueryFirstOrDefault<sys_user>("select * from sys_user where id=@id", new { id = id });
+        }
+
+        public sys_user Query(string name)
+        {
+            return conn.QueryFirstOrDefault<sys_user>("select * from sys_user where Name=@Name", new { Name = name });
         }
     }
 }

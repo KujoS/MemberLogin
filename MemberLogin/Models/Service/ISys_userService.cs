@@ -17,5 +17,7 @@ namespace MemberLogin.Models.Service
         List<sys_user> Query();
 
         sys_user Query(int id);
+
+        sys_user Query(string name);
     }
 }
