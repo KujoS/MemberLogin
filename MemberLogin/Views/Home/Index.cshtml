@@ -4,4 +4,85 @@
 
 <div class="jumbotron">
     <h1>Hello @ViewBag.UserName</h1>
+<div class="">
+    <a href="@Url.Action("Logout")" class="btn btn-danger ">登出</a>
+    <button class="btn btn-default" data-toggle="modal" data-target="#model_add"><span class="glyphicon glyphicon-plus"></span>新增帳號</button>
 </div>
+
+<div class="modal fade h-100" tabindex="-1" role="dialog" id="model_add">
+    <div class="modal-dialog modal-xl h-75" role="document">
+        <div class="modal-content h-100">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h2 class="modal-title text-info">
+                    新增帳號
+                </h2>
+            </div>
+            <div class="modal-body">
+                <div class="input-group ">
+                    <span class="input-group-addon">帳號</span>
+                    <input id="in_acc" type="text" class="form-control" placeholder="請輸入帳號名稱" />
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">密碼</span>
+                    <input id="in_pw1" type="password" class="form-control" />
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">確認密碼</span>
+                    <input id="in_pw2" type="password" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn_add" type="button" class="btn btn-primary">確定</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+<script>
+    $(document).ready(function () {
+        $('#btn_add').click(function () {
+
+            var acc = $('#in_acc').val();
+            var pw1 = $('#in_pw1').val();
+            var pw2 = $('#in_pw2').val();
+
+            if (pw1 != pw2) {
+                alert('密碼不相同')
+                return;
+            }
+            if (!acc || !pw1 || !pw2) {
+                alert('資料空白');
+                return;
+            }
+            var data = new FormData();
+            data.append('acc', acc);
+            data.append('pw', pw1);
+            $.ajax({
+                url:'@Url.Action("AddAccount")',
+                type: 'POST',
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    if (result === '000') {
+                        alert('新增成功');
+                        $('#model_add').modal('hide');
+                    }
+                    else {
+                        alert('錯誤-' + result);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert('error: ' + xhr.status);
+                }
+            });
+        });
+    })
+</script>
+}

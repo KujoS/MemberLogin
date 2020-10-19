@@ -48,12 +48,45 @@ namespace MemberLogin.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult AddAccount()
+        {
+            try
+            {
+                var acc = Request.Params["acc"];
+                var pw = Request.Params["pw"];
+                if(string.IsNullOrWhiteSpace(acc) || string.IsNullOrWhiteSpace(pw))
+                {
+                    throw new Exception("缺少資料");
+                }
+
+                userService.Insert(new Models.EF.sys_user
+                {
+                    Name = acc,
+                    Password = pw,
+                    Level = 1
+
+                });
+
+                return Content("000");
+            }
+            catch(Exception ex)
+            {
+                return Content(ex.Message);
+            }
+        }
         public ActionResult Index()
         {
             string user = System.Web.HttpContext.Current.User.Identity.Name;
             ViewBag.UserName = user;
 
             return View();
+        }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login");
         }
 
         public ActionResult About()
