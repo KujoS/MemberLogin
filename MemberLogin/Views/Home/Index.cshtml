@@ -3,7 +3,20 @@
 }
 
 <div class="jumbotron">
-    <h1>Hello @ViewBag.UserName</h1>
+    <h3>
+        @if (ViewBag.Level == 0)
+        {
+            <span>管理員</span>
+        }
+        else
+        {
+            <span>使用者</span>
+        }
+
+    </h3>
+    <h1>Hello @ViewBag.UserName </h1>
+</div>
+
 <div class="">
     <a href="@Url.Action("Logout")" class="btn btn-danger ">登出</a>
     <button class="btn btn-default" data-toggle="modal" data-target="#model_add"><span class="glyphicon glyphicon-plus"></span>新增帳號</button>

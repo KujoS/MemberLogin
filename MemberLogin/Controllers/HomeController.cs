@@ -78,8 +78,11 @@ namespace MemberLogin.Controllers
         public ActionResult Index()
         {
             string user = System.Web.HttpContext.Current.User.Identity.Name;
-            ViewBag.UserName = user;
 
+            var acc = userService.Query(user);
+            ViewBag.UserName = acc?.Name;
+            ViewBag.Level = acc?.Level;
+            
             return View();
         }
 
